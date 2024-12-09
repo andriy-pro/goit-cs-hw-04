@@ -58,18 +58,33 @@ def bm_search(text, keywords):
     Повертає словник результатів {слово: True} для знайдених слів.
     """
     results = {}
+    text_lower = text.lower()
+
     for word in keywords:
-        shift_table = build_shift_table(word)
+        word_lower = word.lower()
+        shift_table = build_shift_table(word_lower)
         i = 0
-        # Змінюємо логіку пошуку, щоб шукати всі входження
-        while i <= len(text) - len(word):
-            j = len(word) - 1
-            while j >= 0 and text[i + j] == word[j]:
+        word_found = False
+
+        while i <= len(text_lower) - len(word_lower):
+            j = len(word_lower) - 1
+            while j >= 0 and text_lower[i + j] == word_lower[j]:
                 j -= 1
             if j < 0:
-                results[word] = True  # Знайшли входження слова
-            # Продовжуємо пошук далі, не перериваємо цикл
-            i += shift_table.get(text[i + len(word) - 1], len(word))
+                results[word] = True
+                word_found = True
+                break  # Move to the next keyword after finding a match
+            else:
+                shift = shift_table.get(
+                    text_lower[i + len(word_lower) - 1], len(word_lower)
+                )
+                i += (
+                    shift if shift > 0 else 1
+                )  # Ensure at least one character is skipped
+
+        if not word_found:
+            logger.info(f"Ключове слово '{word}' не знайдено у тексті.")
+
     return results
 
 

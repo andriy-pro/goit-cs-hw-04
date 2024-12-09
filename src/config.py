@@ -11,7 +11,20 @@ from colorama import Fore, Style
 INPUT_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "input")
 
 # Ключові слова для пошуку
-KEYWORDS = ["зима", "вже", "прийшла"]
+KEYWORDS = [
+    "немає",
+    "значення",
+    "зима",
+    "сніг",
+    "літо",
+    "сонце",
+    "москалі",
+    "мають",
+    "дохнуть",
+    "донать",
+    "на",
+    "русоріз",
+]
 
 # Кількість потоків/процесів
 NUM_THREADS = 4
